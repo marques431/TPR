@@ -1,10 +1,11 @@
 import requests
 import ipaddress
-from scapy.all import sniff, IP, IPv6, TCP
+from scapy.all import sniff, IP, IPv6, UDP
 import json
 
 # Correct Google IP Ranges URL
-GOOGLE_IP_RANGES_URL = 'google_ips.json'
+GOOGLE_IP_RANGES_URL = 'https://www.gstatic.com/ipranges/goog.json'
+#GOOGLE_IP_RANGES_URL = 'google_ips.json'
 
 # Fetch Google's IP ranges
 def get_google_ip_ranges():
@@ -65,9 +66,9 @@ def packet_callback(packet):
     # Check if the destination IP is within Google IP ranges
     if is_google_ip(ip_dst):
         # We're interested in HTTPS traffic, which uses port 443
-        if packet.haslayer(TCP) and packet[TCP].dport == 443:
-            #print(f"Detected traffic to Google IP: {ip_dst} from {packet[IP].src if packet.haslayer(IP) else packet[IPv6].src}")
-            #print(f"Packet length: {len(packet)} bytes")
+        if packet.haslayer(UDP) and packet[UDP].dport == 443:
+            print(f"Detected traffic to Google IP: {ip_dst} from {packet[IP].src if packet.haslayer(IP) else packet[IPv6].src}")
+            print(f"Packet length: {len(packet)} bytes")
             if len(packet) > 200:
                 print("upload detected")
                 # You could further analyze packet size, duration, or patterns here
