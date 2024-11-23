@@ -1,6 +1,9 @@
 # Virtual Environment
 venv
 
+# Pcaps
+captures/*.pcap
+
 # Powerpoints
 *.pptx
 
