@@ -78,5 +78,6 @@ def main():
         pktHandler(timestamp, srcIP, dstIP, lenIP, out)
     out.close()
 
+
 if __name__ == '__main__':
     main()

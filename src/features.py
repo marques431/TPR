@@ -42,7 +42,7 @@ def main():
     slidingValue = 5
 
     data = np.loadtxt(input_file, dtype=int)
-    filename = "./ml_data/features" # FIXME: mudar o nome do ficheiro
+    filename = "./ml_data/features.txt" # FIXME: mudar o nome do ficheiro
 
     features = extract_features(data, lenObsWindow, slidingValue)
     print(features)
