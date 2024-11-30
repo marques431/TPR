@@ -23,7 +23,7 @@ upload_packets upload_bytes download_packets download_bytes
 ### Run
 
 ```sh
-python3 features.py -i <samped_data.txt>
+python3 features.py -i <samped_data.txt> -o <output.txt>
 ```
 
 > **Nota:** o ficheiro de input tem de estar em ./sampled_data
