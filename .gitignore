@@ -3,6 +3,7 @@ venv
 
 # Pcaps
 src/captures/*.pcap
+src/captures/*.pcapng
 
 # Powerpoints
 *.pptx
