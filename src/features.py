@@ -23,10 +23,10 @@ def extratctSilenceActivity(data,threshold=0):
     return(s,a)
 
 def ratios(data):
-    up_down_packets = data[0] / data[2] if data[2] != 0 else -1
-    down_up_packets = data[2] / data[0] if data[0] != 0 else -1
-    up_down_bytes = data[1] / data[3] if data[3] != 0 else -1
-    down_up_bytes = data[3] / data[1] if data[1] != 0 else -1
+    up_down_packets = data[0] / data[2] if data[2] != 0 else 0
+    down_up_packets = data[2] / data[0] if data[0] != 0 else 0
+    up_down_bytes = data[1] / data[3] if data[3] != 0 else 0
+    down_up_bytes = data[3] / data[1] if data[1] != 0 else 0
     
     return up_down_packets, down_up_packets, up_down_bytes, down_up_bytes
 

@@ -2,6 +2,7 @@ import argparse
 from netaddr import IPNetwork, IPAddress, IPSet
 import pyshark
 import json
+import time
 
 def load_json():
     with open('./google_ips.json', 'r') as file:
@@ -56,7 +57,7 @@ def main():
     output_file = "./sampled_data/" + args.output
     
     global scnets
-    cnets=['192.168.1.0/24']
+    cnets=['192.168.1.0/24', '192.168.0.0/24']
     scnets = IPSet(cnets)
     
     global ssnets
@@ -73,10 +74,14 @@ def main():
     
     out = open(output_file, 'w')
     capture = pyshark.FileCapture(input_file, display_filter='ip')
+    print("Sampling...") 
+    start_time = time.time()
     for pkt in capture:
         timestamp, srcIP, dstIP, lenIP = pkt.sniff_timestamp, pkt.ip.src, pkt.ip.dst, pkt.ip.len
         pktHandler(timestamp, srcIP, dstIP, lenIP, out)
     out.close()
+    end_time = time.time()
+    print(f"Sampling done. Time taken: {(end_time - start_time):.2f} seconds")
 
 
 if __name__ == '__main__':

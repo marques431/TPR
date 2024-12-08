@@ -41,7 +41,10 @@ def main():
     end_time = time.time()  # Tempo final 
     print(f"Time taken to train the Model: {(end_time - start_time):.2f} seconds")
     
-    # TODO: Save the Model
+    # Save the Model
+    model_file = "./models/" + args.output
+    joblib.dump(model, model_file) 
+
 
 
 if __name__ == '__main__':
