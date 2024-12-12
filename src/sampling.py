@@ -57,7 +57,7 @@ def main():
     output_file = "./sampled_data/" + args.output
     
     global scnets
-    cnets=['192.168.1.0/24', '192.168.0.0/24']
+    cnets=['172.16.0.0/12', '192.168.0.0/12', '10.0.0.0/8']
     scnets = IPSet(cnets)
     
     global ssnets
