@@ -77,7 +77,7 @@ def packet_callback(packet):
 def start_sniffing():
     print("Starting network traffic capture for Google Drive uploads...")
     #sniff(prn=packet_callback, store=0)
-    sniff(iface="wlo1", prn=packet_callback, store=0)  # Replace "wlan0" with your network interface
+    sniff(iface="eno2", prn=packet_callback, store=0)  # Replace "wlan0" with your network interface
 
 
 if __name__ == "__main__":
