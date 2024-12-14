@@ -62,10 +62,8 @@ def main():
     global scnets
     cnets = ['172.16.0.0/12', '192.168.0.0/12', '10.0.0.0/8', 'fc00::/7', 'fe80::/10']
     client_ipv6s = [
-        "2001:8a0:ed24:2c00:44b7:8491:9e36:5c61",
-        "2001:8a0:ed24:2c00:aa5e:45ff:febe:aef6",
+        "2001:8a0:ed24:2c00::/64",
         "fe80::aa5e:45ff:febe:aef6",
-        "2001:8a0:ed24:2c00:c699:5bf4:e828:90d8",
         "fe80::bb26:b37a:ce89:2fcf"
     ]
     cnets.extend(client_ipv6s)
