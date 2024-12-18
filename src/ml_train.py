@@ -1,30 +1,15 @@
 import pandas as pd
-# from sklearn.model_selection import train_test_split
-# from sklearn.model_selection import GridSearchCV
-# from sklearn.tree import DecisionTreeClassifier
-# from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.metrics import classification_report
-# from sklearn.ensemble import GradientBoostingClassifier, IsolationForest, RandomForestClassifier
-# from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-# import matplotlib.pyplot as plt
-# from mlxtend.evaluate import mcnemar_table
-# from mlxtend.evaluate import mcnemar
-# import seaborn as sns
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 import argparse
 import time
 import joblib
 import numpy as np
 
-# INFO: AAS Project Folder: /home/fabirino/Documents/Desktop/2023-24/1 Semestre/AAS/ProjetoAAS
-
-
-
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', nargs='?', required=True)
-    parser.add_argument('-o', '--output', nargs='?', required=True)
+    parser.add_argument('-m', '--model',choices=['kmeans', 'dbscan'], nargs='?', required=True)
     args = parser.parse_args()
 
     # Read the Data
@@ -41,19 +26,28 @@ def main():
     # Train the model
     print("Training the Model...")
     start_time = time.time()
-    n_clusters = 3
-    kmeans = KMeans(n_clusters=n_clusters, random_state=0)
-    kmeans.fit(dataset)
+    if args.model == 'kmeans':
+        n_clusters = 3
+        model = KMeans(n_clusters=n_clusters, random_state=0)
+        model.fit(dataset)
 
-    # Calculate the distances and the threshold
-    distances = np.linalg.norm(dataset - kmeans.cluster_centers_[kmeans.labels_], axis=1)
-    threshold = distances.mean() + 2 * distances.std()
+        # Calculate the distances and the threshold
+        distances = np.linalg.norm(dataset - model.cluster_centers_[model.labels_], axis=1)
+        threshold = distances.mean() + 2 * distances.std()
+    elif args.model == 'dbscan':
+        model = DBSCAN(eps=0.3, min_samples=20)
+        model.fit(dataset) 
+        threshold = None
+
+    else:
+        return
+
     end_time = time.time()
 
     # Save the model
-    model_file = "./models/" + args.output
+    model_file = "./models/" + args.model + ".pkl"
     joblib.dump({
-        "kmeans": kmeans,
+        "model": model,
         "min": features_min,
         "max": features_max,
         "threshold": threshold
