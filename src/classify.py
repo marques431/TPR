@@ -9,12 +9,13 @@ import pandas as pd
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-m', '--model',choices=['kmeans', 'dbscan'], nargs='?', required=True)
+    parser.add_argument('-m', '--model',choices=['kmeans.pkl', 'dbscan.pkl'], nargs='?', required=True)
     parser.add_argument('-n', '--normal_data', nargs='?', required=True)
     parser.add_argument('-a', '--anomalous_data', nargs='?', required=True)
     args = parser.parse_args()
 
-    model_data = joblib.load(args.model)
+    model_file = "./models/" + args.model
+    model_data = joblib.load(model_file)
     model = model_data["model"]
 
     normal_file = "./ml_data/" + args.normal_data
@@ -44,7 +45,7 @@ def main():
 
     cf_matrix = confusion_matrix(y_test, y_pred)
     disp = ConfusionMatrixDisplay(confusion_matrix=cf_matrix, display_labels=["Normal", "Anomalous"])
-    file_name = f"./results/{args.model}_{args.anomalous_data.split(".")[0]}_confusion_matrix.png"
+    file_name = f"./figs/{args.model.split('.')[0]}_{args.anomalous_data.split('.')[0]}_confusion_matrix.png"
     disp.plot(cmap=plt.cm.Blues)
     plt.savefig(file_name)
 
