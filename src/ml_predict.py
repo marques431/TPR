@@ -8,11 +8,6 @@ import joblib
 import numpy as np
 from sklearn.metrics.pairwise import pairwise_distances_argmin_min
 
-# INFO: AAS Project Folder: /home/fabirino/Documents/Desktop/2023-24/1 Semestre/AAS/ProjetoAAS
-
-
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', nargs='?', required=True)

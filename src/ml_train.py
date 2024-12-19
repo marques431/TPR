@@ -18,6 +18,7 @@ def main():
     # print(dataset.head())
     # print(dataset.shape)
    
+   # Normalize
     features_min = dataset.min()
     features_max = dataset.max()
     dataset = (dataset - features_min) / (features_max - features_min)
@@ -34,6 +35,7 @@ def main():
         # Calculate the distances and the threshold
         distances = np.linalg.norm(dataset - model.cluster_centers_[model.labels_], axis=1)
         threshold = distances.mean() + 2 * distances.std()
+
     elif args.model == 'dbscan':
         model = DBSCAN(eps=0.3, min_samples=20)
         model.fit(dataset) 
